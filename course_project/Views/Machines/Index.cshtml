@@ -1,0 +1,46 @@
+﻿@model IEnumerable<course_project.Models.Machine>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.firmMach)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.timeProcessing)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Guild.nameGuild)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.firmMach)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.timeProcessing)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Guild.nameGuild)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_mach }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_mach }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_mach })
+        </td>
+    </tr>
+}
+
+</table>

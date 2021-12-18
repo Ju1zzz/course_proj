@@ -1,0 +1,43 @@
+﻿@model course_project.Models.Machine
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Machine</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.firmMach)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.firmMach)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.timeProcessing)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.timeProcessing)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Guild.nameGuild)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Guild.nameGuild)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_mach }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
