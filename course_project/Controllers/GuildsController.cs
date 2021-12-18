@@ -14,9 +14,20 @@ namespace course_project.Models
         private GuildsEntities db = new GuildsEntities();
 
         // GET: Guilds
-        public ActionResult Index()
+        public ActionResult Index(int pg = 1)
         {
-            return View(db.Guild.ToList());
+            List<Guild> guilds = db.Guild.ToList();
+            const int pageSize = 30;
+            if (pg < 1)
+                pg = 1;
+
+            int rescCount = guilds.Count();
+            var pages = new Pager(rescCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = guilds.Skip(recSkip).Take(pages.PageSize).ToList();
+            this.ViewBag.Pager = pages;
+
+            return View(data);
         }
 
         // GET: Guilds/Details/5
@@ -109,9 +120,18 @@ namespace course_project.Models
         public ActionResult DeleteConfirmed(int id)
         {
             Guild guild = db.Guild.Find(id);
-            db.Guild.Remove(guild);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+             
+            try
+            {
+                db.Guild.Remove(guild);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Невозможно удалить объект: он используется в другой таблице");
+            }
+            return View(guild);
         }
 
         protected override void Dispose(bool disposing)

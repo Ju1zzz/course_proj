@@ -15,9 +15,21 @@ namespace course_project.Views
         private GuildsEntities db = new GuildsEntities();
 
         // GET: Parts
-        public ActionResult Index()
+        public ActionResult Index(int pg = 1)
         {
-            return View(db.Part.ToList());
+            List<Part> parts = db.Part.ToList();
+            const int pageSize = 30;
+            if (pg < 1)
+                pg = 1;
+
+            int rescCount = parts.Count();
+            var pages = new Pager(rescCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = parts.Skip(recSkip).Take(pages.PageSize).ToList();
+            this.ViewBag.Pager = pages;
+
+            return View(data);
+
         }
 
         // GET: Parts/Details/5

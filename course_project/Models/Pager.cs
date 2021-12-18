@@ -17,9 +17,9 @@ namespace course_project.Models
 
 
         public Pager()
-      {
+        {
 
-      }
+        }
 
       public Pager(int totalItems, int page, int pageSize = 10)
       {

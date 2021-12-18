@@ -15,10 +15,21 @@ namespace course_project.Controllers
         private GuildsEntities db = new GuildsEntities();
 
         // GET: Machines
-        public ActionResult Index()
+        public ActionResult Index(int pg = 1)
         {
-            var machine = db.Machine.Include(m => m.Guild);
-            return View(machine.ToList());
+            //var data = db.Machine.Include(m => m.Guild);
+            List<Machine> machines = db.Machine.ToList();
+            const int pageSize = 50;
+            if (pg < 1)
+                pg = 1;
+
+            int rescCount = machines.Count();
+            var pages = new Pager(rescCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = machines.Skip(recSkip).Take(pages.PageSize).ToList();
+            this.ViewBag.Pager = pages;
+
+            return View(data);
         }
 
         // GET: Machines/Details/5
@@ -39,7 +50,7 @@ namespace course_project.Controllers
         // GET: Machines/Create
         public ActionResult Create()
         {
-            ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "nameGuild");
+            ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "id_guild");
             return View();
         }
 
@@ -57,7 +68,7 @@ namespace course_project.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "nameGuild", machine.fk_id_guild);
+            ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "id_guild", machine.fk_id_guild);
             return View(machine);
         }
 
@@ -73,7 +84,7 @@ namespace course_project.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "nameGuild", machine.fk_id_guild);
+            ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "id_guild", machine.fk_id_guild);
             return View(machine);
         }
 
@@ -90,7 +101,7 @@ namespace course_project.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "nameGuild", machine.fk_id_guild);
+            ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "id_guild", machine.fk_id_guild);
             return View(machine);
         }
 
@@ -115,9 +126,19 @@ namespace course_project.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Machine machine = db.Machine.Find(id);
-            db.Machine.Remove(machine);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            
+            try
+            {
+                db.Machine.Remove(machine);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Ошибка! Объект используется в другой таблице");
+            }
+            return View(machine);
         }
 
         protected override void Dispose(bool disposing)

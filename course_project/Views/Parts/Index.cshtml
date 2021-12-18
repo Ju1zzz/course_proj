@@ -1,13 +1,10 @@
 ﻿@model IEnumerable<course_project.Models.Part>
 @using course_project.Models;
-
 @{
-    ViewData["Title"] = "Index";
-
+    ViewBag.Title = "Parts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     Pager pager = new Pager();
-
     int pageNo = 0;
-
     if (ViewBag.Pager != null)
     {
         pager = ViewBag.Pager;
@@ -15,18 +12,49 @@
     }
 }
 
-<h2>Index</h2>
+<h2 class="mt-4">Part list</h2>
+<a class="btn btn-outline-primary mt-3" href="Parts/Create">Add new part</a>
+<div class="container">
+    @if (pager.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+            @if (pager.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pg=1">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?pg=@(pager.CurrentPage - 1)">Previous</a>
+                </li>
+            }
+
+            @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+            {
+                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="?pg=@pge"> @pge </a>
+                </li>
+            }
+
+            @if (pager.CurrentPage < pager.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pg=@(pager.CurrentPage + 1)">Next</a>
+                </li>
+                <li>
+                    <a class="page-link" href="?pg=@(pager.TotalPages)">Last</a>
+                </li>
+            }
+        </ul>
+    }
+</div>
+<table class="table mt-3">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.namePart)
+            Title of part
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.firmPart)
+            Firm
         </th>
         <th></th>
     </tr>
@@ -40,62 +68,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.firmPart)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id_part }) |
-                @Html.ActionLink("Details", "Details", new { id = item.id_part }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id_part })
+            <td style="text-align: right">
+                @{var id = item.id_part;}
+                <a class="btn btn-warning" href="Parts/Edit/@id">Edit</a>
+                <a class="btn btn-info" href="Parts/Details/@id">Info</a>
+                <a class="btn btn-danger" href="Parts/Delete/@id">Delete</a>
             </td>
         </tr>
     }
-
 </table>
-<!--<div class="container">
-    @if (pager.TotalPages > 0)
-    {
-        <ul class="pagination justify-content-end">
-            @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
-            {
-                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
-                    <a class="page-link" href="?pg=@pge">@pge</a>
-                </li>
 
-            }
-        </ul>
-    }
-</div>-->
 
-<div class="container">
-    @if (pager.TotalPages > 0)
-    {
-        <ul class="pagination justify-content-start">
 
-            @if (pager.CurrentPage > 1)
-            {
-                <li class="page-item">
-                    <a class="page-link" href="?pg=1">Первая</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?pg=@(pager.CurrentPage - 1)">Предыдущая</a>
-                </li>
-            }
 
-            @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
-            {
-                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
-                    <a class="page-link" href="?pg=@pge">@pge</a>
-                </li>
 
-            }
 
-            @if (pager.CurrentPage < pager.TotalPages)
-            {
-                <li class="page-item">
-                    <a class="page-link" href="?pg=@(pager.CurrentPage + 1)">Следующая</a>
-                </li>
-                <li>
-                    <a class="page-link" href="?pg=@(pager.TotalPages)">Последняя</a>
-                </li>
-            }
-        </ul>
-    }
-</div>
+
+

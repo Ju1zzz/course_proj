@@ -1,82 +1,82 @@
 ﻿@model IEnumerable<course_project.Models.Modification>
 @using course_project.Models;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Modifications";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Pager pager = new Pager();
     int pageNo = 0;
     if (ViewBag.Pager != null)
-            {
+    {
         pager = ViewBag.Pager;
         pageNo = pager.CurrentPage;
-            }
+    }
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.nameMod)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LabourInput)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.nameMod)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LabourInput)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id_mod }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id_mod }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id_mod })
-        </td>
-    </tr>
-}
-
-</table>
+<h2 class="mt-4">Modification list</h2>
+<a class="btn btn-outline-primary mt-3" href="Modifications/Create">Add new modification</a>
 <div class="container">
     @if (pager.TotalPages > 0)
     {
-        <ul class="pagination justify-content-start">
+        <ul class="pagination justify-content-end">
 
             @if (pager.CurrentPage > 1)
             {
                 <li class="page-item">
-                    <a class="page-link" href="?pg=1">Первая</a>
+                    <a class="page-link" href="?pg=1">First</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?pg=@(pager.CurrentPage - 1)">Предыдущая</a>
+                    <a class="page-link" href="?pg=@(pager.CurrentPage - 1)">Previous</a>
                 </li>
             }
 
             @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
             {
                 <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
-                    <a class="page-link" href="?pg=@pge">@pge</a>
+                    <a class="page-link" href="?pg=@pge"> @pge </a>
                 </li>
-
             }
 
             @if (pager.CurrentPage < pager.TotalPages)
             {
                 <li class="page-item">
-                    <a class="page-link" href="?pg=@(pager.CurrentPage + 1)">Следующая</a>
+                    <a class="page-link" href="?pg=@(pager.CurrentPage + 1)">Next</a>
                 </li>
                 <li>
-                    <a class="page-link" href="?pg=@(pager.TotalPages)">Последняя</a>
+                    <a class="page-link" href="?pg=@(pager.TotalPages)">Last</a>
                 </li>
             }
         </ul>
     }
 </div>
+<table class="table mt-3">
+    <tr>
+        <th>
+            Title of modification
+        </th>
+        <th>
+            Labour input
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nameMod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LabourInput)
+            </td>
+            <td style="text-align: right">
+                @{var id = item.id_mod;}
+                <a class="btn btn-warning" href="Modifications/Edit/@id">Edit</a>
+                <a class="btn btn-info" href="Modifications/Details/@id">Info</a>
+                <a class="btn btn-danger" href="Modifications/Delete/@id">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+
+

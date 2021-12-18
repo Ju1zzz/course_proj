@@ -11,7 +11,8 @@ namespace course_project.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Guild
     {
         public Guild()
@@ -20,7 +21,11 @@ namespace course_project.Models
         }
     
         public int id_guild { get; set; }
+        [Required]
+        [StringLength(30)]
         public string nameGuild { get; set; }
+        [Required]
+        [StringLength(40)]
         public string firmGuild { get; set; }
     
         public virtual ICollection<Machine> Machine { get; set; }

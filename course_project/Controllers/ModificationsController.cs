@@ -15,9 +15,21 @@ namespace course_project.Controllers
         private GuildsEntities db = new GuildsEntities();
 
         // GET: Modifications
-        public ActionResult Index()
+        public ActionResult Index(int pg = 1)
         {
-            return View(db.Modification.ToList());
+            List<Modification> modifications = db.Modification.ToList();
+            const int pageSize = 30;
+            if (pg < 1)
+                pg = 1;
+
+            int rescCount = modifications.Count();
+            var pages = new Pager(rescCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = modifications.Skip(recSkip).Take(pages.PageSize).ToList();
+            this.ViewBag.Pager = pages;
+
+            return View(data);
+            
         }
 
         // GET: Modifications/Details/5
