@@ -17,13 +17,13 @@
 <div class="container">
     @if (pager.TotalPages > 0)
     {
-        <ul class="pagination justify-content-end">
+        <ul class="pagination pg-danger justify-content-end">
 
             @if (pager.CurrentPage > 1)
             {
-                <li class="page-item">
-                    <a class="page-link" href="?pg=1">First</a>
-                </li>
+            <li class="page-item">
+                <a class="page-link" href="?pg=1">First</a>
+            </li>
                 <li class="page-item">
                     <a class="page-link" href="?pg=@(pager.CurrentPage - 1)">Previous</a>
                 </li>
@@ -70,9 +70,9 @@
             </td>
             <td style="text-align: right">
                 @{var id = item.id_guild;}
-                <a class="btn btn-warning" href="Guilds/Edit/@id">Edit</a>
-                <a class="btn btn-info" href="Guilds/Details/@id">Info</a>
-                <a class="btn btn-danger" href="Guilds/Delete/@id">Delete</a>
+                <a class="btn btn-outline-secondary" href="Guilds/Edit/@id">Edit</a>
+                <a class="btn btn-outline-info" href="Guilds/Details/@id">Info</a>
+                <a class="btn btn-outline-danger" href="Guilds/Delete/@id">Delete</a>
             </td>
         </tr>
     }

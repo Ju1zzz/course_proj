@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Windows.Forms;
 
 namespace course_project.Models
 {
@@ -90,11 +91,19 @@ namespace course_project.Models
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_guild,nameGuild,firmGuild")] Guild guild)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(guild).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(guild).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Can not be updated! Object is used in another table!");
+
             }
             return View(guild);
         }
@@ -129,7 +138,8 @@ namespace course_project.Models
             }
             catch (Exception)
             {
-                ModelState.AddModelError("", "Невозможно удалить объект: он используется в другой таблице");
+                ModelState.AddModelError("", "Can not be deleted! Object is used in another table!");
+                
             }
             return View(guild);
         }

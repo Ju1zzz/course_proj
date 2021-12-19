@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище GuildsModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище GuildsModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "Guilds.dbo.Draft" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Draft">
@@ -14,6 +14,7 @@
           </Key>
           <Property Name="fk_id_mach" Type="int" Nullable="false" />
           <Property Name="fk_id_part" Type="int" Nullable="false" />
+          <Property Name="name_part" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="Guild">
           <Key>
@@ -55,6 +56,7 @@
           </Key>
           <Property Name="fk_id_part" Type="int" Nullable="false" />
           <Property Name="fk_id_mod" Type="int" Nullable="false" />
+          <Property Name="name_part" Type="varchar" MaxLength="30" />
         </EntityType>
         <Association Name="FK__Draft__fk_id_mac__300424B4">
           <End Role="Machine" Type="Self.Machine" Multiplicity="1" />
@@ -229,7 +231,8 @@
           <EntitySet Name="Draft" EntityType="Self.Draft" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [Draft].[fk_id_mach] AS [fk_id_mach], 
-[Draft].[fk_id_part] AS [fk_id_part]
+[Draft].[fk_id_part] AS [fk_id_part], 
+[Draft].[name_part] AS [name_part]
 FROM [dbo].[Draft] AS [Draft]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__Draft__fk_id_mac__300424B4" Association="Self.FK__Draft__fk_id_mac__300424B4">
@@ -253,8 +256,7 @@ FROM [dbo].[Draft] AS [Draft]</DefiningQuery>
             <End Role="Processing" EntitySet="Processing" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GuildsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -335,38 +337,38 @@ FROM [dbo].[Draft] AS [Draft]</DefiningQuery>
             <End Role="Part" EntitySet="Part" />
           </AssociationSet>
           <FunctionImport Name="AutoDraft" ReturnType="Collection(GuildsModel.AutoDraft_Result)">
-            <Parameter Name="rows" Mode="In" Type="Int32" />
+          <Parameter Name="rows" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AutoGuild">
-            <Parameter Name="rows" Mode="In" Type="Int32" />
+          <Parameter Name="rows" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AutoMachine">
-            <Parameter Name="rows" Mode="In" Type="Int32" />
+          <Parameter Name="rows" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AutoModification">
-            <Parameter Name="rows" Mode="In" Type="Int32" />
+          <Parameter Name="rows" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AutoPart">
-            <Parameter Name="rows" Mode="In" Type="Int32" />
+          <Parameter Name="rows" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AutoProcessing" ReturnType="Collection(GuildsModel.AutoProcessing_Result)">
-            <Parameter Name="rows" Mode="In" Type="Int32" />
+          <Parameter Name="rows" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteDraft">
             <Parameter Name="id_m" Mode="In" Type="Int32" />
             <Parameter Name="id_p" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteGuild">
-            <Parameter Name="id_g" Mode="In" Type="Int32" />
+          <Parameter Name="id_g" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteMachine">
-            <Parameter Name="id_m" Mode="In" Type="Int32" />
+          <Parameter Name="id_m" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteMod">
-            <Parameter Name="id_m" Mode="In" Type="Int32" />
+          <Parameter Name="id_m" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeletePart">
-            <Parameter Name="id_p" Mode="In" Type="Int32" />
+          <Parameter Name="id_p" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteProcessing">
             <Parameter Name="id_p" Mode="In" Type="Int32" />
@@ -438,6 +440,7 @@ FROM [dbo].[Draft] AS [Draft]</DefiningQuery>
             <Parameter Name="id_p" Mode="In" Type="Int32" />
             <Parameter Name="id_m" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="first" ReturnType="Collection(GuildsModel.FirstDoc_Result)" />
         </EntityContainer>
         <ComplexType Name="AutoDraft_Result">
           <Property Type="Int32" Name="ErrorNumber" Nullable="true" />
@@ -739,6 +742,14 @@ FROM [dbo].[Draft] AS [Draft]</DefiningQuery>
           <FunctionImportMapping FunctionImportName="UpdateMod" FunctionName="Хранилище GuildsModel.UpdateMod" />
           <FunctionImportMapping FunctionImportName="UpdatePart" FunctionName="Хранилище GuildsModel.UpdatePart" />
           <FunctionImportMapping FunctionImportName="UpdateProcessing" FunctionName="Хранилище GuildsModel.UpdateProcessing" />
+          <FunctionImportMapping FunctionImportName="first" FunctionName="Хранилище GuildsModel.FirstDoc">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GuildsModel.FirstDoc_Result">
+                <ScalarProperty Name="nameMod" ColumnName="nameMod" />
+                <ScalarProperty Name="fk_id_part" ColumnName="fk_id_part" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -122,9 +122,19 @@ namespace course_project.Views
         public ActionResult DeleteConfirmed(int id)
         {
             Part part = db.Part.Find(id);
-            db.Part.Remove(part);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                db.Part.Remove(part);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Can not be deleted! Object is used in another table!");
+
+            }
+            return View(part);
+            
         }
 
         protected override void Dispose(bool disposing)

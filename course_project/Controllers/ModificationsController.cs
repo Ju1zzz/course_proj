@@ -122,9 +122,19 @@ namespace course_project.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Modification modification = db.Modification.Find(id);
-            db.Modification.Remove(modification);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                db.Modification.Remove(modification);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Can not be deleted! Object is used in another table!");
+
+            }
+            return View(modification);
+           
         }
 
         protected override void Dispose(bool disposing)

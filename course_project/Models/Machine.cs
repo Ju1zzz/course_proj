@@ -11,8 +11,7 @@ namespace course_project.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Machine
     {
         public Machine()
@@ -21,14 +20,8 @@ namespace course_project.Models
         }
     
         public int id_mach { get; set; }
-        [Required]
-       
         public int fk_id_guild { get; set; }
-        [Required]
-        [StringLength(40)]
         public string firmMach { get; set; }
-        [Required]
-        [Range(0.01, 5)]
         public Nullable<double> timeProcessing { get; set; }
     
         public virtual Guild Guild { get; set; }

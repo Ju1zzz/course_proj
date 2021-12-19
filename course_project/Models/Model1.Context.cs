@@ -11,9 +11,11 @@ namespace course_project.Models
 {
     using System;
     using System.Data.Entity;
-    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
-
+    using System.Data.Objects;
+    using System.Data.Objects.DataClasses;
+    using System.Linq;
+    
     public partial class GuildsEntities : DbContext
     {
         public GuildsEntities()
@@ -378,6 +380,11 @@ namespace course_project.Models
                 new ObjectParameter("id_m", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateProcessing", id_pParameter, id_mParameter);
+        }
+    
+        public virtual ObjectResult<FirstDoc_Result> first()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<FirstDoc_Result>("first");
         }
     }
 }
