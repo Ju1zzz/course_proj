@@ -59,13 +59,18 @@ namespace course_project.Models
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_guild,nameGuild,firmGuild")] Guild guild)
         {
-            if (ModelState.IsValid)
-            {
-                db.Guild.Add(guild);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            try {
+                 if (ModelState.IsValid)
+                 { 
+                   db.Guild.Add(guild);
+                   db.SaveChanges();
+                   return RedirectToAction("Index");
+                 }
+            } catch (Exception) {
 
+                ModelState.AddModelError("", "Such guild already exists!");
+            }
+            
             return View(guild);
         }
 

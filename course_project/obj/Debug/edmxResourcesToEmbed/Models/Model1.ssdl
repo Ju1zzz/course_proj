@@ -9,6 +9,7 @@
     </Key>
     <Property Name="fk_id_mach" Type="int" Nullable="false" />
     <Property Name="fk_id_part" Type="int" Nullable="false" />
+    <Property Name="name_part" Type="varchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="Guild">
     <Key>
@@ -50,6 +51,7 @@
     </Key>
     <Property Name="fk_id_part" Type="int" Nullable="false" />
     <Property Name="fk_id_mod" Type="int" Nullable="false" />
+    <Property Name="name_part" Type="varchar" MaxLength="30" />
   </EntityType>
   <Association Name="FK__Draft__fk_id_mac__300424B4">
     <End Role="Machine" Type="Self.Machine" Multiplicity="1" />
@@ -224,7 +226,8 @@
     <EntitySet Name="Draft" EntityType="Self.Draft" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
 [Draft].[fk_id_mach] AS [fk_id_mach], 
-[Draft].[fk_id_part] AS [fk_id_part]
+[Draft].[fk_id_part] AS [fk_id_part], 
+[Draft].[name_part] AS [name_part]
 FROM [dbo].[Draft] AS [Draft]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK__Draft__fk_id_mac__300424B4" Association="Self.FK__Draft__fk_id_mac__300424B4">

@@ -60,11 +60,20 @@ namespace course_project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_mod,nameMod,LabourInput")] Modification modification)
         {
-            if (ModelState.IsValid)
+            
+            try
             {
+                if (ModelState.IsValid)
+                {
                 db.Modification.Add(modification);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+                }
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError("", "Such modification already exists!");
             }
 
             return View(modification);
@@ -92,14 +101,25 @@ namespace course_project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_mod,nameMod,LabourInput")] Modification modification)
         {
-            if (ModelState.IsValid)
+            
+            try
             {
+              if (ModelState.IsValid)
+              {
                 db.Entry(modification).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
+              }
+              
             }
-            return View(modification);
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Can not be updated! Object is used in another table!");
+
+            }
+           return View(modification);
         }
+    
 
         // GET: Modifications/Delete/5
         public ActionResult Delete(int? id)
@@ -114,6 +134,7 @@ namespace course_project.Controllers
                 return HttpNotFound();
             }
             return View(modification);
+
         }
 
         // POST: Modifications/Delete/5

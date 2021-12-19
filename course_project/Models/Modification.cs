@@ -11,7 +11,8 @@ namespace course_project.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Modification
     {
         public Modification()
@@ -20,9 +21,14 @@ namespace course_project.Models
         }
     
         public int id_mod { get; set; }
+        [Required]
+        [StringLength(30)]
         public string nameMod { get; set; }
+        [Required]
+        [Range(typeof(double), "0.01", "2.00")]
         public Nullable<double> LabourInput { get; set; }
     
         public virtual ICollection<Part> Part { get; set; }
     }
 }
+

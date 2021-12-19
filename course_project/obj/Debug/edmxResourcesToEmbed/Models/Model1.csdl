@@ -180,6 +180,7 @@
       <Parameter Name="id_p" Mode="In" Type="Int32" />
       <Parameter Name="id_m" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="first" ReturnType="Collection(GuildsModel.FirstDoc_Result)" />
   </EntityContainer>
   <ComplexType Name="AutoDraft_Result">
     <Property Type="Int32" Name="ErrorNumber" Nullable="true" />

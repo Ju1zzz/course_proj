@@ -239,5 +239,13 @@
     <FunctionImportMapping FunctionImportName="UpdateMod" FunctionName="Хранилище GuildsModel.UpdateMod" />
     <FunctionImportMapping FunctionImportName="UpdatePart" FunctionName="Хранилище GuildsModel.UpdatePart" />
     <FunctionImportMapping FunctionImportName="UpdateProcessing" FunctionName="Хранилище GuildsModel.UpdateProcessing" />
+    <FunctionImportMapping FunctionImportName="first" FunctionName="Хранилище GuildsModel.FirstDoc">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GuildsModel.FirstDoc_Result">
+          <ScalarProperty Name="nameMod" ColumnName="nameMod" />
+          <ScalarProperty Name="fk_id_part" ColumnName="fk_id_part" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -60,11 +60,20 @@ namespace course_project.Views
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_part,namePart,firmPart")] Part part)
         {
-            if (ModelState.IsValid)
+            
+            try
             {
+               if (ModelState.IsValid)
+               {
                 db.Part.Add(part);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+               } 
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError("", "Such part already exists!");
             }
 
             return View(part);
@@ -92,14 +101,23 @@ namespace course_project.Views
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_part,namePart,firmPart")] Part part)
         {
-            if (ModelState.IsValid)
+            try
             {
+                if (ModelState.IsValid)
+                {
                 db.Entry(part).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
+                }
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Can not be updated! Object is used in another table!");
+
             }
             return View(part);
         }
+    
 
         // GET: Parts/Delete/5
         public ActionResult Delete(int? id)

@@ -61,14 +61,24 @@ namespace course_project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_mach,fk_id_guild,firmMach,timeProcessing")] Machine machine)
         {
-            if (ModelState.IsValid)
+            
+            try
             {
+              if (ModelState.IsValid)
+              {
                 db.Machine.Add(machine);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+              }
+
+            ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "id_guild", machine.fk_id_guild); 
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError("", "Such machine already exists!");
             }
 
-            ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "id_guild", machine.fk_id_guild);
             return View(machine);
         }
 
@@ -95,13 +105,23 @@ namespace course_project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_mach,fk_id_guild,firmMach,timeProcessing")] Machine machine)
         {
-            if (ModelState.IsValid)
+           
+            try
             {
-                db.Entry(machine).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(machine).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "id_guild", machine.fk_id_guild);
+
             }
-            ViewBag.fk_id_guild = new SelectList(db.Guild, "id_guild", "id_guild", machine.fk_id_guild);
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Can not be updated! Object is used in another table!");
+
+            }
             return View(machine);
         }
 
